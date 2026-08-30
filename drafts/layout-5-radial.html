@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Layout 5 — Radial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/common.css" />
+<style>
+  /* Layout 5 accent: slate blue */
+  :root {
+    --accent: #5c6e9e;
+    --accent-soft: #a3aeda;
+  }
+
+  body {
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .label-top-left {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .meta-bottom {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .orbit {
+    position: relative;
+    width: 480px;
+    height: 480px;
+    max-width: 90vmin;
+    max-height: 90vmin;
+  }
+
+  .ring {
+    transform-origin: 240px 240px;
+    animation: spin 90s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    text-align: center;
+  }
+  .hub .initials { font-size: 1.3rem; font-weight: 600; color: var(--ink); }
+  .hub .role-tiny { font-size: 0.6rem; color: var(--muted); max-width: 12ch; line-height: 1.4; }
+
+  .node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+  .node .marker {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    background: var(--bg);
+    transition: background 0.2s ease;
+  }
+  .node a { font-size: 0.78rem; color: var(--ink); transition: color 0.2s ease; }
+  .node:hover .marker { background: var(--accent); }
+  .node a:hover { color: var(--accent-soft); }
+
+  .node.n1 { top: calc(50% - 190px); left: 50%; }
+  .node.n2 { top: calc(50% + 95px); left: calc(50% + 164px); }
+  .node.n3 { top: calc(50% + 95px); left: calc(50% - 164px); }
+</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor"><span class="cursor-label" id="cursor-label"></span></div>
+
+  <span class="label-top-left" data-scramble data-cursor="home">SYSTEM MAP</span>
+
+  <div class="orbit">
+    <svg class="ring" width="480" height="480" viewBox="0 0 480 480" style="position:absolute;inset:0;">
+      <circle cx="240" cy="240" r="190" fill="none" style="stroke:var(--line)" stroke-width="1" stroke-dasharray="2 7" />
+    </svg>
+    <svg width="480" height="480" viewBox="0 0 480 480" style="position:absolute;inset:0;">
+      <line x1="240" y1="240" x2="240" y2="50" style="stroke:var(--accent)" stroke-width="1" opacity="0.35" />
+      <line x1="240" y1="240" x2="404" y2="335" style="stroke:var(--accent)" stroke-width="1" opacity="0.35" />
+      <line x1="240" y1="240" x2="76" y2="335" style="stroke:var(--accent)" stroke-width="1" opacity="0.35" />
+    </svg>
+
+    <div class="hub">
+      <span class="initials" data-scramble data-cursor="hi">YN</span>
+      <span class="role-tiny">builder / engineer</span>
+    </div>
+
+    <div class="node n1">
+      <span class="marker"></span>
+      <a href="#" data-scramble data-cursor="view">work</a>
+    </div>
+    <div class="node n2">
+      <span class="marker"></span>
+      <a href="#" data-scramble data-cursor="read">writing</a>
+    </div>
+    <div class="node n3">
+      <span class="marker"></span>
+      <a href="mailto:you@example.com" data-scramble data-cursor="say hi">contact</a>
+    </div>
+  </div>
+
+  <span class="meta-bottom">Design engineer / builder — based somewhere</span>
+
+  <script src="../assets/common.js"></script>
+</body>
+</html>

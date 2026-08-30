@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zoe Chen — Photo Studies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/common.css" />
+<style>
+  :root {
+    /* No local --accent/--accent-soft override — follows assets/common.css. */
+    --mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+
+  /* This page is a scrolling gallery, not a one-viewport layout —
+     override common.css's overflow:hidden so it can scroll normally. */
+  html, body { height: auto; min-height: 100%; overflow: visible; }
+
+  body {
+    padding: 3rem clamp(1.5rem, 5vw, 4rem) 5rem;
+  }
+
+  .page-head {
+    max-width: 60ch;
+    margin-bottom: 3rem;
+  }
+  .page-head .tag {
+    display: block;
+    color: var(--ink);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.6rem;
+  }
+  .page-head .sub {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 2.25rem 1.75rem;
+  }
+
+  figure.tile { margin: 0; }
+
+  .frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  figcaption {
+    margin-top: 0.7rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  figcaption .n { color: var(--accent); margin-right: 0.4rem; }
+  figcaption .note {
+    display: block;
+    margin-top: 0.25rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--muted);
+    font-size: 0.7rem;
+  }
+
+  /* ---------- 01 · original — plain grayscale, background kept ---------- */
+  .f-original img { filter: grayscale(1) contrast(1.05); }
+
+  /* ---------- 02 · threshold — near-binary ink look ---------- */
+  .f-threshold img { filter: grayscale(1) contrast(3.2) brightness(1.1); }
+
+  /* ---------- 03 · pixelated — chunky mosaic ----------
+     image-rendering:pixelated only reliably kicks in when the browser
+     itself is doing the up-scaling of a small source (CSS transform:scale
+     ignores the hint and stays smooth) — so this tile's <img> points at a
+     genuinely tiny 28x28 crop, blown up by plain width/height:100%. */
+  .f-pixel img {
+    image-rendering: pixelated;
+    filter: grayscale(1) contrast(1.15);
+  }
+
+  /* ---------- 04 · halftone — dot-screen print texture ---------- */
+  .f-halftone img { filter: grayscale(1) contrast(1.35) brightness(1.05); }
+  .f-halftone::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, #000 1px, transparent 1.3px);
+    background-size: 4px 4px;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+  }
+
+  /* ---------- 05 · scanlines — CRT monitor pass ---------- */
+  .f-scan img { filter: grayscale(1) contrast(1.15); }
+  .f-scan::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.45) 0px,
+      rgba(0, 0, 0, 0.45) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    animation: scan-flicker 4s steps(2) infinite;
+  }
+  @keyframes scan-flicker {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 0.65; }
+  }
+
+  /* ---------- 06 · film grain — SVG turbulence noise ---------- */
+  .f-grain img { filter: grayscale(1) contrast(1.1); }
+  .f-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    filter: url(#grain);
+    mix-blend-mode: overlay;
+    opacity: 0.5;
+  }
+
+  /* ---------- 07 · posterize — hard-edged silkscreen tones ---------- */
+  .f-posterize img { filter: url(#posterize) contrast(1.1); }
+
+  /* ---------- 08 · background removed — feathered cutout, no frame ---------- */
+  .f-cutout {
+    background: transparent;
+    border: none;
+  }
+  .f-cutout img {
+    filter: grayscale(1) contrast(1.2);
+    -webkit-mask-image: radial-gradient(circle at 50% 42%, #000 52%, transparent 82%);
+    mask-image: radial-gradient(circle at 50% 42%, #000 52%, transparent 82%);
+  }
+</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor"><span class="cursor-label" id="cursor-label"></span></div>
+
+  <!-- Hidden SVG filter defs, referenced via filter: url(#id) above -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <filter id="grain">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch" result="noise" />
+        <feColorMatrix in="noise" type="matrix"
+          values="0 0 0 0 1
+                  0 0 0 0 1
+                  0 0 0 0 1
+                  0.33 0.33 0.33 0 0" />
+      </filter>
+      <filter id="posterize">
+        <feColorMatrix type="matrix"
+          values="0.33 0.33 0.33 0 0
+                  0.33 0.33 0.33 0 0
+                  0.33 0.33 0.33 0 0
+                  0 0 0 1 0" />
+        <feComponentTransfer>
+          <feFuncR type="discrete" tableValues="0 0.3 0.6 0.85 1" />
+          <feFuncG type="discrete" tableValues="0 0.3 0.6 0.85 1" />
+          <feFuncB type="discrete" tableValues="0 0.3 0.6 0.85 1" />
+        </feComponentTransfer>
+      </filter>
+    </defs>
+  </svg>
+
+  <header class="page-head">
+    <span class="tag" data-scramble>photo / effects</span>
+    <span class="sub">one source photo, run through a handful of black-and-white treatments — some keep the frame, some try cutting the background out entirely.</span>
+  </header>
+
+  <div class="gallery">
+    <figure class="tile">
+      <div class="frame f-original"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">01</span><span data-scramble>original</span><span class="note">grayscale, background kept</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-threshold"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">02</span><span data-scramble>threshold</span><span class="note">crushed contrast, near-binary ink</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-pixel">
+        <div class="shrink"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      </div>
+      <figcaption><span class="n">03</span><span data-scramble>pixelated</span><span class="note">8×8 mosaic, no smoothing</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-halftone"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">04</span><span data-scramble>halftone</span><span class="note">dot-screen print texture</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-scan"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">05</span><span data-scramble>scanlines</span><span class="note">CRT pass, slow flicker</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-grain"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">06</span><span data-scramble>film grain</span><span class="note">SVG turbulence noise, overlaid</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-posterize"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">07</span><span data-scramble>posterize</span><span class="note">hard-edged silkscreen tones</span></figcaption>
+    </figure>
+
+    <figure class="tile">
+      <div class="frame f-cutout"><img src="../assets/photo.jpg" alt="Zoe Chen" /></div>
+      <figcaption><span class="n">08</span><span data-scramble>cutout</span><span class="note">background masked away, no frame</span></figcaption>
+    </figure>
+  </div>
+
+  <script src="../assets/common.js"></script>
+</body>
+</html>

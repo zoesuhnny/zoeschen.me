@@ -1,0 +1,104 @@
+/* ============================================================
+   SHARED ACROSS ALL 5 LAYOUTS
+   Each layout HTML file links this, then overrides --accent /
+   --accent-soft in its own <style> block to get its own mood
+   while staying in the same dark plum-black family, matched to
+   tinabmai.com's actual palette (bg #17131d, text #fff, muted
+   grays #71717a / #64748b).
+   ============================================================ */
+
+:root {
+  --bg: #17131d;           /* near-black with a plum undertone, not pure black */
+  --surface: #17131d;      /* panel/card background */
+  --surface-2: #211c2b;    /* slightly lighter panel, for nesting */
+  --ink: #ffffff;          /* primary text, pure white */
+  --muted: #71717a;        /* secondary text, cool gray */
+  --line: #2e2838;         /* hairline borders */
+  --accent: #ffffff;       /* overridden per-layout */
+  --accent-soft: #8aafc2;  /* overridden per-layout */
+
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* The whole point of this round: no scrollbars, ever. Every layout is
+   built to fit inside one viewport using dvh/fr units instead of relying
+   on scroll. */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Hide the system cursor only where a real mouse exists; touch devices
+   keep the normal tap behavior untouched. */
+@media (hover: hover) and (pointer: fine) {
+  body, a, button {
+    cursor: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Custom cursor (shared signature element #1) ---------- */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  will-change: transform;
+}
+.cursor-dot.hovering {
+  width: 52px;
+  height: 52px;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cursor-dot .cursor-label {
+  color: var(--bg);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.cursor-dot.hovering .cursor-label {
+  opacity: 1;
+}
+
+/* Elements tagged data-scramble get this treatment via common.js on hover.
+   No special CSS required beyond a hover color, set per-layout. */
+[data-scramble] {
+  display: inline-block;
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Layout 4 — Centered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/common.css" />
+<style>
+  /* Layout 4 accent: pale ice blue — the whole page is quiet, so a
+     lighter, cooler accent reads better than a saturated one here */
+  :root {
+    --accent: #9fc6e8;
+    --accent-soft: #cfe6f7;
+  }
+
+  body {
+    height: 100dvh;
+    position: relative;
+    background:
+      radial-gradient(ellipse at center, #10151d 0%, var(--bg) 70%);
+  }
+
+  .stage {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.9rem;
+  }
+
+  .name {
+    font-size: clamp(2.2rem, 7vw, 4.2rem);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .role {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+  }
+  .role .accent { color: var(--accent); }
+
+  /* ---------- Corner-pinned meta / nav ---------- */
+  .corner {
+    position: fixed;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .corner.top-left { top: 2rem; left: 2rem; }
+  .corner.bottom-left { bottom: 2rem; left: 2rem; }
+  .corner.bottom-right { bottom: 2rem; right: 2rem; }
+
+  .top-right-nav {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.72rem;
+  }
+  .top-right-nav a { color: var(--muted); transition: color 0.2s ease; }
+  .top-right-nav a:hover { color: var(--accent); }
+
+  .corner.bottom-right a { color: var(--muted); transition: color 0.2s ease; }
+  .corner.bottom-right a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor"><span class="cursor-label" id="cursor-label"></span></div>
+
+  <span class="corner top-left" data-scramble data-cursor="home">N°01</span>
+
+  <nav class="top-right-nav">
+    <a href="#" data-scramble data-cursor="view">work</a>
+    <a href="#" data-scramble data-cursor="read">writing</a>
+  </nav>
+
+  <main class="stage">
+    <h1 class="name" id="hero-name" data-scramble data-cursor="hi">YOUR NAME</h1>
+    <p class="role">Design engineer / builder — <span class="accent">based somewhere</span></p>
+  </main>
+
+  <span class="corner bottom-left">LOS ANGELES, CA — <span id="tz-clock">--:--</span></span>
+  <span class="corner bottom-right"><a href="mailto:you@example.com" data-scramble data-cursor="email">say hello →</a></span>
+
+  <script src="../assets/common.js"></script>
+  <script>
+    // Ambient idle glitch: the centered name scrambles itself every few
+    // seconds even without a hover, so the page feels quietly alive.
+    // (defined in common.js, reused here)
+    setTimeout(() => ambientScramble('#hero-name', 4500), 2000);
+
+    function tick() {
+      const el = document.getElementById('tz-clock');
+      if (el) el.textContent = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' });
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>

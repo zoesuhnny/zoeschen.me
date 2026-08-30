@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Layout 2 — Split</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/common.css" />
+<style>
+  /* Layout 2 accent: deep indigo-blue */
+  :root {
+    --accent: #6272c4;
+    --accent-soft: #a8b3ee;
+  }
+
+  body {
+    display: grid;
+    grid-template-columns: 1.1fr 1px 1fr;
+    height: 100dvh;
+  }
+
+  .divider { background: var(--line); }
+
+  /* ---------- Left: giant name treatment ---------- */
+  .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+  }
+  .left .index-label {
+    position: absolute;
+    top: 2rem;
+    left: 3rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+  .giant {
+    font-size: clamp(2.6rem, 8vw, 5.2rem);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .giant span {
+    display: block;
+    transition: color 0.2s ease;
+  }
+  .giant span:hover {
+    color: var(--accent-soft);
+  }
+  .role {
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    max-width: 34ch;
+  }
+  .role em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* ---------- Right: bio + compact 3-up ---------- */
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    gap: 1.75rem;
+  }
+  .bio {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    max-width: 44ch;
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .col h4 {
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin: 0 0 0.75rem;
+    font-weight: 500;
+  }
+  .col a, .col .row {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    transition: color 0.2s ease;
+  }
+  .col a:hover { color: var(--accent-soft); }
+  .col .row .yr { color: var(--muted); font-size: 0.7rem; display: block; }
+</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor"><span class="cursor-label" id="cursor-label"></span></div>
+
+  <!-- ---------- Left: name as the hero, split down the middle from the content ---------- -->
+  <section class="left">
+    <span class="index-label">INDEX — 01</span>
+    <h1 class="giant">
+      <span data-scramble data-cursor="hi">YOUR</span>
+      <span data-scramble data-cursor="hi">NAME</span>
+    </h1>
+    <p class="role">Design engineer / builder, based somewhere. <em>Available for work.</em></p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ---------- Right: everything else, compact so it never scrolls ---------- -->
+  <section class="right">
+    <p class="bio">
+      I build things at the edge of code and craft — a short paragraph
+      about what you do and what you care about, kept to two sentences
+      so this whole page fits one screen.
+    </p>
+    <div class="cols">
+      <div class="col">
+        <h4 data-scramble>WORK</h4>
+        <div class="row"><span class="yr">2026</span><a href="#" data-scramble>Project One</a></div>
+        <div class="row"><span class="yr">2025</span><a href="#" data-scramble>Project Two</a></div>
+      </div>
+      <div class="col">
+        <h4 data-scramble>WRITING</h4>
+        <div class="row"><span class="yr">JUL 26</span><a href="#" data-scramble>A short note</a></div>
+        <div class="row"><span class="yr">FEB 26</span><a href="#" data-scramble>Another piece</a></div>
+      </div>
+      <div class="col">
+        <h4 data-scramble>CONTACT</h4>
+        <a href="mailto:you@example.com" data-scramble data-cursor="email">Email</a>
+        <a href="#" data-scramble data-cursor="visit">GitHub</a>
+        <a href="#" data-scramble data-cursor="visit">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="../assets/common.js"></script>
+</body>
+</html>
