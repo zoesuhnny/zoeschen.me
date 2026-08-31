@@ -6,23 +6,50 @@
 <title>Zoe Chen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Geist+Mono:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inconsolata:wght@200..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Jaldi:wght@400;700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Kosugi&family=Kosugi+Maru&family=Meera+Inimai&family=Nanum+Gothic+Coding:wght@400;700&family=Padauk:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&family=Syne+Mono&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/common.css" />
 <style>
   /* Reigns-inspired palette — muted near-black + parchment ink + a
      single muted crimson signal, applied directly (no theme switcher). */
   :root {
-    --bg: #160d00; --surface: #160d00; --surface-2: #231404;
-    --ink: #f7f6be; --muted: #a9a069; --line: #231404;
-    --accent: #b53952; --accent-soft: #a9a069;
+    --bg: #ffffff; --surface: #ffffff; --surface-2: #ffffff;
+    --ink: #251f1f; --muted: #000000; --line: #eeeee4;
+    --accent: #000000; --accent-soft: #000000;
+
+    /* fafafa */
+
+    /* Font test switcher — uncomment ONE line, comment out the rest.
+       --mono is the only thing that drives the page's typeface. */
+    /* --mono: 'JetBrains Mono', monospace; */
+    /* --mono: 'Inconsolata', monospace; */
+    /* --mono: 'Nanum Gothic Coding', monospace; */
+    /* --mono: 'Ubuntu Mono', monospace; */
+    /* --mono: 'Syne Mono', monospace; */
+    /* --mono: 'Iosevka Charon Mono', monospace; */
+    /* --mono: 'Kosugi Maru', sans-serif; */
+    /* --mono: 'Meera Inimai', sans-serif; */
+    /* --mono: 'Jaldi', sans-serif; */
+    /* --mono: 'Padauk', sans-serif; */
+    /* --mono: 'Kosugi', sans-serif; */
+    /* --mono: 'DM Mono', monospace; */
+    /* --mono: 'Geist Mono', monospace; */
+    /* --mono: 'IBM Plex Mono', monospace; */
+    --mono: 'Roboto Mono', monospace;
+    /* --mono: 'Spline Sans Mono', monospace; */
+
+    /* Weight of the tinted/muted body copy (id line, row descriptions,
+       facts) — everything that doesn't have its own font-weight
+       override. Range is font-dependent; most variable fonts here
+       accept any integer roughly 100-800/900. */
+    --body-weight: 430;
   }
 
   body {
     display: flex;
     flex-direction: column;
     height: 100dvh;
-    font-size: 0.75rem;
-    font-weight: 300;
+    font-size: 0.70rem;
+    font-weight: var(--body-weight);
     letter-spacing: 0.15px;
     padding: 1.25rem;
     gap: 1rem;
@@ -105,6 +132,7 @@
     text-transform: uppercase;
     margin-bottom: 0.9rem;
     flex-shrink: 0;
+    font-weight:550;
   }
   .card-head .ic { color: var(--accent); }
 
@@ -141,14 +169,14 @@
   .rows .row { display: flex; gap: 0.6rem; align-items: flex-start; }
   .rows .row .ic { margin-top: 0.2rem; color: var(--accent); }
   .rows .row .body { color: var(--muted); line-height: 1.6; }
-  .rows .row .body strong { color: var(--ink); font-weight: 500; }
+  .rows .row .body strong { color: var(--ink); font-weight: 700; }
 
   /* ---------- About / facts — pictogram rows ---------- */
   .facts { display: flex; flex-direction: column; gap: 0.6rem; }
   .facts .row { display: flex; align-items: flex-start; gap: 0.6rem; }
   .facts .row .ic { color: var(--accent); margin-top: 0.2rem; }
   .facts .row span { color: var(--muted); line-height: 1.5; }
-  .facts .row span strong { color: var(--ink); font-weight: 500; }
+  .facts .row span strong { color: var(--ink); font-weight: 700; }
 </style>
 </head>
 <body>
