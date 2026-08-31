@@ -9,12 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Geist+Mono:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inconsolata:wght@200..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Jaldi:wght@400;700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Kosugi&family=Kosugi+Maru&family=Meera+Inimai&family=Nanum+Gothic+Coding:wght@400;700&family=Padauk:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&family=Syne+Mono&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/common.css" />
 <style>
-  /* Reigns-inspired palette — muted near-black + parchment ink + a
-     single muted crimson signal, applied directly (no theme switcher). */
   :root {
-    --bg: #ffffff; --surface: #ffffff; --surface-2: #ffffff;
-    --ink: #251f1f; --muted: #000000; --line: #eeeee4;
-    --accent: #000000; --accent-soft: #000000;
+    --bg: #f4f4f3; --surface: #f4f4f3; --surface-2: #f4f4f3;
+    --ink: #343031; --muted: #6f6466; --line: #eae9e9;
+    --accent: #94797e; --accent-soft: #94797e;
 
     /* fafafa */
 
@@ -34,13 +32,8 @@
     /* --mono: 'DM Mono', monospace; */
     /* --mono: 'Geist Mono', monospace; */
     /* --mono: 'IBM Plex Mono', monospace; */
-    --mono: 'Roboto Mono', monospace;
-    /* --mono: 'Spline Sans Mono', monospace; */
-
-    /* Weight of the tinted/muted body copy (id line, row descriptions,
-       facts) — everything that doesn't have its own font-weight
-       override. Range is font-dependent; most variable fonts here
-       accept any integer roughly 100-800/900. */
+    /* --mono: 'Roboto Mono', monospace; */
+    --mono: 'Spline Sans Mono', monospace;
     --body-weight: 430;
   }
 
@@ -169,14 +162,57 @@
   .rows .row { display: flex; gap: 0.6rem; align-items: flex-start; }
   .rows .row .ic { margin-top: 0.2rem; color: var(--accent); }
   .rows .row .body { color: var(--muted); line-height: 1.6; }
-  .rows .row .body strong { color: var(--ink); font-weight: 700; }
+  .rows .row .body strong { color: var(--ink); font-weight: 600; }
 
   /* ---------- About / facts — pictogram rows ---------- */
   .facts { display: flex; flex-direction: column; gap: 0.6rem; }
   .facts .row { display: flex; align-items: flex-start; gap: 0.6rem; }
   .facts .row .ic { color: var(--accent); margin-top: 0.2rem; }
   .facts .row span { color: var(--muted); line-height: 1.5; }
-  .facts .row span strong { color: var(--ink); font-weight: 700; }
+  .facts .row span strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Mobile: single scrollable column instead of the fixed-
+     viewport 3-column grid. Same content/markup, just reflowed — no
+     separate mobile.html, so the URL is always just zoeschen.me. ---------- */
+  @media (max-width: 720px) {
+    html, body { height: auto; min-height: 100%; overflow: visible; }
+
+    body {
+      display: block;
+      height: auto;
+      font-size: 0.85rem;
+      padding: 1.25rem 1rem 2.5rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .ic { width: 15px; height: 15px; vertical-align: -3px; }
+
+    .sysbar { margin-bottom: 1.25rem; }
+
+    /* Same .grid element, just stacked instead of gridded — grid-row
+       spans on the children become no-ops automatically. */
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .card { min-height: 0; padding: 1.1rem 1.15rem; }
+    .card::before, .card::after { content: none; }
+
+    .photo { width: 155px; height: 155px; }
+    .id-name { font-size: 1.15rem; }
+    .id-line { font-size: 0.8rem; }
+    .id-chip { font-size: 0.72rem; padding: 0.3rem 0.6rem; }
+    .socials { gap: 0.6rem; }
+    .socials a { padding: 0.35rem 0; }
+
+    .rows { gap: 0.9rem; overflow: visible; }
+    .rows .row .body { line-height: 1.65; }
+
+    .facts { gap: 0.75rem; }
+    .facts .row span { line-height: 1.55; }
+  }
 </style>
 </head>
 <body>
@@ -256,9 +292,6 @@
 
   <script src="assets/common.js"></script>
   <script>
-    // Cursor snaps straight to the pointer, no lerp/trailing — keeps it
-    // from sweeping across (and briefly covering) small icons like the
-    // social links while it settles.
     (function () {
       const dot = document.getElementById('snap-cursor');
       if (!dot || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
