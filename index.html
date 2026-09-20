@@ -163,6 +163,8 @@
   .rows .row .ic { margin-top: 0.2rem; color: var(--accent); }
   .rows .row .body { color: var(--muted); line-height: 1.6; }
   .rows .row .body strong { color: var(--ink); font-weight: 600; }
+  .rows .row .body a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); transition: color 0.15s ease; }
+  .rows .row .body a:hover { color: var(--accent-soft); }
 
   /* ---------- About / facts — pictogram rows ---------- */
   .facts { display: flex; flex-direction: column; gap: 0.6rem; }
@@ -250,7 +252,7 @@
       <div class="rows">
         <div class="row">
           <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
-          <div class="body"><strong data-scramble>poem analyzer and sentiment classifier:</strong>  built Pieta AI — paired an LLM API for poem interpretation with a fine-tuned BERT sentiment scorer, plus a second sentiment analyzer fine-tuned with LoRA on the way.</div>
+          <div class="body"><strong data-scramble>poem analyzer and sentiment classifier:</strong>  built <a href="https://pieta-ai.vercel.app/" target="_blank" rel="noopener">Pieta AI</a> — paired an LLM API for poem interpretation with a fine-tuned BERT sentiment scorer, plus a second sentiment analyzer fine-tuned with LoRA on the way.</div>
         </div>
         <div class="row">
           <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
