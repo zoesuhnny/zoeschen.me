@@ -4,192 +4,313 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Zoe Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Geist+Mono:ital,wght@0,100..900;1,100..900&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Inconsolata:wght@200..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Jaldi:wght@400;700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Kosugi&family=Kosugi+Maru&family=Meera+Inimai&family=Nanum+Gothic+Coding:wght@400;700&family=Padauk:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,300..700&family=Syne+Mono&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/common.css" />
 <style>
-  /* Softer, bookish take on index.html — same grid, same content.
-     Inspired by people.cs.uchicago.edu/~josephinep: serif type,
-     whitesmoke page, slate-blue links, no boxes or HUD chrome. */
   :root {
-    --bg: #f5f5f5;
-    --ink: #241f20;
-    --muted: #5f5b5c;
-    --faint: #9b9b9b;
-    --line: #e2e0e0;
-    --link: #78819b;
-    --link-hover: #4f5965;
-    --serif: Charter, 'Bitstream Charter', 'Sitka Text', Georgia, serif;
-  }
+    --bg: #f4f4f3; --surface: #f4f4f3; --surface-2: #f4f4f3;
+    --ink: #343031; --muted: #6f6466; --line: #eae9e9;
+    --accent: #94797e; --accent-soft: #94797e;
 
-  * { box-sizing: border-box; }
+    /* fafafa */
 
-  html, body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--serif);
-    -webkit-font-smoothing: antialiased;
+    /* Font test switcher — uncomment ONE line, comment out the rest.
+       --mono is the only thing that drives the page's typeface. */
+    /* --mono: 'JetBrains Mono', monospace; */
+    /* --mono: 'Inconsolata', monospace; */
+    /* --mono: 'Nanum Gothic Coding', monospace; */
+    /* --mono: 'Ubuntu Mono', monospace; */
+    /* --mono: 'Syne Mono', monospace; */
+    /* --mono: 'Iosevka Charon Mono', monospace; */
+    /* --mono: 'Kosugi Maru', sans-serif; */
+    /* --mono: 'Meera Inimai', sans-serif; */
+    /* --mono: 'Jaldi', sans-serif; */
+    /* --mono: 'Padauk', sans-serif; */
+    /* --mono: 'Kosugi', sans-serif; */
+    /* --mono: 'DM Mono', monospace; */
+    /* --mono: 'Geist Mono', monospace; */
+    /* --mono: 'IBM Plex Mono', monospace; */
+    /* --mono: 'Roboto Mono', monospace; */
+    --mono: 'Spline Sans Mono', monospace;
+    --body-weight: 430;
   }
 
   body {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem 3rem;
-    font-size: 14px;
-    line-height: 1.65;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    font-size: 0.66rem;
+    font-weight: var(--body-weight);
+    letter-spacing: 0.15px;
+    padding: 1.25rem;
+    gap: 1rem;
   }
 
-  a { color: var(--link); text-decoration: none; transition: color 0.15s ease; }
-  a:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 3px; }
+  .ic { width: 13px; height: 13px; stroke: currentColor; stroke-width: 1.3; fill: none; vertical-align: -2px; flex-shrink: 0; }
+  .ic-dot { fill: currentColor; stroke: none; }
+  .ic-bullet { fill: currentColor; stroke: none; width: 8px; height: 8px; }
 
-  ::selection { background: #dfe3ec; }
-
-  /* ---------- Header: centered name + pipe-separated nav ---------- */
-  header { text-align: center; margin-bottom: 2.25rem; }
-  .name {
-    font-size: 3.25rem;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    margin: 0;
-    line-height: 1.1;
+  /* Shared cursor-dot has a lerped/trailing follow — swapped out below
+     for a cursor that snaps straight to the pointer, no smoothing. It's
+     the same diamond pip used for list bullets, just re-colored --ink. */
+  .cursor-dot { display: none; }
+  .snap-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    fill: var(--ink);
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0;
+    transform: translate(-9999px, -9999px);
   }
-  .menu { margin-top: 0.9rem; color: var(--faint); font-size: 1rem; }
-  .menu a { color: var(--muted); font-weight: 700; }
-  .menu a:hover { color: var(--link); text-decoration: none; }
-  .menu a + a::before {
-    content: "|";
-    color: var(--faint);
-    font-weight: 400;
-    margin: 0 0.75rem;
-    display: inline-block; /* keeps the pipe from getting the hover underline */
+  .snap-cursor.active { opacity: 1; }
+  @media (hover: none), (pointer: coarse) {
+    .snap-cursor { display: none; }
   }
 
-  /* ---------- Grid: same 3-column shape as index.html ---------- */
+  /* ---------- Sysbar: utilitarian status strip ---------- */
+  .sysbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .sysbar .id { color: var(--ink); }
+  .sysbar .id b { color: var(--ink); font-weight: 500; }
+
+  /* ---------- Card grid ---------- */
   .grid {
+    flex: 1;
     display: grid;
-    grid-template-columns: 240px 1fr 1fr;
-    grid-template-rows: auto 1fr;
-    column-gap: 2.5rem;
-    row-gap: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--line);
+    grid-template-columns: 250px 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.9rem;
+    min-height: 0;
   }
-
-  section h2 {
-    font-size: 1.25rem;
-    font-weight: 400;
-    margin: 0 0 0.9rem;
-    color: var(--ink);
-  }
-  /* short accent bar under each heading, like the reference's left-aligned hr */
-  section h2::after {
-    content: "";
-    display: block;
-    width: 32px;
-    height: 3px;
-    background: var(--link);
-    opacity: 0.55;
-    margin-top: 0.4rem;
-  }
-
-  /* ---------- Identity column ---------- */
-  .id { grid-row: 1 / 3; text-align: center; }
-  .photo {
-    width: 190px;
-    height: 190px;
-    margin: 0 auto 1rem;
+  .card {
+    position: relative;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
     overflow: hidden;
   }
+  /* HUD corner brackets — geometric viewfinder marks on every card */
+  .card::before, .card::after {
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    pointer-events: none;
+  }
+  .card::before { top: -1px; left: -1px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
+  .card::after { bottom: -1px; right: -1px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    flex-shrink: 0;
+    font-weight:550;
+  }
+  .card-head .ic { color: var(--accent); }
+
+  /* ---------- Identity card ---------- */
+  .id-card { grid-row: 1 / 3; align-items: center; text-align: center; }
+  .photo {
+    width: 150px;
+    height: 150px;
+    background: var(--surface-2);
+    filter: grayscale(1);
+    overflow: hidden;
+    margin-bottom: 0.9rem;
+  }
   .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .id p { margin: 0.35rem 0; color: var(--muted); }
-  .id .hello { color: var(--ink); font-size: 1.05rem; }
-  .id .school { font-style: italic; font-size: 0.92rem; }
-
-  /* ---------- Works spans both rows of the middle column ---------- */
-  .works { grid-row: 1 / 3; }
-
-  ul.items { list-style: none; margin: 0; padding: 0; }
-  ul.items li { margin-bottom: 1rem; color: var(--muted); }
-  ul.items li:last-child { margin-bottom: 0; }
-  ul.items li strong { color: var(--ink); font-weight: 700; }
-
-  ul.facts { list-style: disc; margin: 0; padding-left: 1.1rem; }
-  ul.facts li { margin-bottom: 0.4rem; color: var(--muted); }
-  ul.facts li::marker { color: var(--link); }
-  ul.facts li strong { color: var(--ink); font-weight: 700; }
-
-  footer {
-    margin-top: 3rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-    text-align: center;
-    color: var(--faint);
-    font-size: 0.85rem;
+  .id-name { color: var(--ink); font-size: 1rem; font-weight: 600; letter-spacing: 0.01em; }
+  .id-line { color: var(--muted); font-size: 0.68rem; line-height: 1.6; margin-top: 0.5rem; }
+  .id-chip {
+    display: inline-block;
+    color: var(--accent-soft);
+    font-size: 0.6rem;
+    letter-spacing: 0.02em;
+    padding: 0.25rem 0.5rem;
+    margin-top: 0.7rem;
   }
+  .socials { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.9rem; width: 100%; text-align: left; }
+  .socials a { display: flex; align-items: center; gap: 0.5rem; color: var(--ink); transition: color 0.15s ease; }
+  .socials a .ic { color: var(--muted); }
+  .socials a:hover { color: var(--accent-soft); }
+  .socials a:hover .ic { color: var(--accent-soft); }
 
-  /* ---------- Tablet: identity on top, two columns below ---------- */
-  @media (max-width: 900px) {
-    .grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-    .id { grid-row: auto; grid-column: 1 / -1; }
-    .works { grid-row: 2 / 4; }
-  }
+  /* ---------- Works / previously — logged rows ---------- */
+  .rows { display: flex; flex-direction: column; gap: 0.8rem; overflow: auto; }
+  .rows .row { display: flex; gap: 0.6rem; align-items: flex-start; }
+  .rows .row .ic { margin-top: 0.2rem; color: var(--accent); }
+  .rows .row .body { color: var(--muted); line-height: 1.6; }
+  .rows .row .body strong { color: var(--ink); font-weight: 600; }
+  .rows .row .body a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); transition: color 0.15s ease; }
+  .rows .row .body a:hover { color: var(--accent-soft); }
 
-  /* ---------- Phone: one column ---------- */
-  @media (max-width: 620px) {
-    body { padding: 1.75rem 1rem 2.5rem; font-size: 15px; }
-    .name { font-size: 2.4rem; }
-    .grid { grid-template-columns: 1fr; }
-    .works { grid-row: auto; }
-    .photo { width: 160px; height: 160px; }
+  /* ---------- About / facts — pictogram rows ---------- */
+  .facts { display: flex; flex-direction: column; gap: 0.6rem; }
+  .facts .row { display: flex; align-items: flex-start; gap: 0.6rem; }
+  .facts .row .ic { color: var(--accent); margin-top: 0.2rem; }
+  .facts .row span { color: var(--muted); line-height: 1.5; }
+  .facts .row span strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Mobile: single scrollable column instead of the fixed-
+     viewport 3-column grid. Same content/markup, just reflowed — no
+     separate mobile.html, so the URL is always just zoeschen.me. ---------- */
+  @media (max-width: 720px) {
+    html, body { height: auto; min-height: 100%; overflow: visible; }
+
+    body {
+      display: block;
+      height: auto;
+      font-size: 0.8rem;
+      padding: 1.25rem 1rem 2.5rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .ic { width: 15px; height: 15px; vertical-align: -3px; }
+
+    .sysbar { margin-bottom: 1.25rem; }
+
+    /* Same .grid element, just stacked instead of gridded — grid-row
+       spans on the children become no-ops automatically. */
+    .grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .card { min-height: 0; padding: 1.1rem 1.15rem; }
+    .card::before, .card::after { content: none; }
+
+    .photo { width: 155px; height: 155px; }
+    .id-name { font-size: 1.15rem; }
+    .id-line { font-size: 0.8rem; }
+    .id-chip { font-size: 0.72rem; padding: 0.3rem 0.6rem; }
+    .socials { gap: 0.6rem; }
+    .socials a { padding: 0.35rem 0; }
+
+    .rows { gap: 0.9rem; overflow: visible; }
+    .rows .row .body { line-height: 1.65; }
+
+    .facts { gap: 0.75rem; }
+    .facts .row span { line-height: 1.55; }
   }
 </style>
 </head>
 <body>
-  <header>
-    <h1 class="name">Zoe Chen</h1>
-    <nav class="menu">
-      <a href="https://github.com/zoesuhnny" target="_blank" rel="noopener">github</a><a href="https://www.linkedin.com/in/zoe-chen-49776b309/" target="_blank" rel="noopener">linkedin</a><a href="https://www.instagram.com/zoeeschenn/" target="_blank" rel="noopener">insta</a><a href="assets/resume.pdf" target="_blank" rel="noopener">resume</a><a href="mailto:zoec@uchicago.edu">email</a>
-    </nav>
-  </header>
+  <svg class="snap-cursor" id="snap-cursor" viewBox="0 0 16 16"><use href="#ic-bullet"/></svg>
 
-  <main class="grid">
-    <section class="id">
+  <!-- Reusable geometric icon sprite — flat, stroke-only, no brand marks -->
+  <svg style="display:none">
+    <symbol id="ic-sword" viewBox="0 0 16 16"><path d="M8 1V10"/><path d="M5 9.2H11"/><path d="M8 10V13.2"/><circle cx="8" cy="14" r="0.9"/></symbol>
+    <symbol id="ic-crown" viewBox="0 0 16 16"><path d="M2 13H14"/><path d="M2 13L3 6L6.5 9L8 3.5L9.5 9L13 6L14 13"/></symbol>
+    <symbol id="ic-heart" viewBox="0 0 16 16"><path d="M8 13.3C8 13.3 2 9.6 2 5.7C2 3.7 3.6 2.3 5.5 2.3C6.5 2.3 7.4 2.8 8 3.6C8.6 2.8 9.5 2.3 10.5 2.3C12.4 2.3 14 3.7 14 5.7C14 9.6 8 13.3 8 13.3Z"/></symbol>
+    <symbol id="ic-bullet" viewBox="0 0 16 16"><polygon points="8,3 13,8 8,13 3,8"/></symbol>
+    <symbol id="ic-link" viewBox="0 0 16 16"><path d="M4 12L12 4"/><path d="M7 4H12V9"/></symbol>
+  </svg>
+
+  <div class="sysbar">
+    <span class="id"><b data-scramble>ZOE CHEN</b></span>
+  </div>
+
+  <div class="grid">
+    <div class="card id-card">
       <div class="photo"><img src="assets/photo.jpg" alt="Zoe Chen" /></div>
-      <p class="hello">hi, welcome to my page :)</p>
-      <p class="school">cs + computational &amp; applied math<br />@ uchicago '30</p>
-      <p><a href="mailto:zoec@uchicago.edu">zoec@uchicago.edu</a></p>
-    </section>
+      <div class="id-name" data-scramble>Zoe Chen</div>
+      <p class="id-line">hi, welcome to my page :)<br />zoec@uchicago.edu</p>
+      <span class="id-chip" data-scramble>[cs + computational &amp; applied math @ uchicago '30]</span>
+      <nav class="socials">
+        <a href="https://github.com/zoesuhnny" target="_blank" rel="noopener"><svg class="ic"><use href="#ic-link"/></svg><span data-scramble>github</span></a>
+        <a href="https://www.linkedin.com/in/zoe-chen-49776b309/" target="_blank" rel="noopener"><svg class="ic"><use href="#ic-link"/></svg><span data-scramble>linkedin</span></a>
+        <a href="https://www.instagram.com/zoeeschenn/"><svg class="ic"><use href="#ic-link"/></svg><span data-scramble>insta</span></a>
+        <a href="mailto:zoec@uchicago.edu"><svg class="ic"><use href="#ic-link"/></svg><span data-scramble>email</span></a>
+      </nav>
+    </div>
+  
+    <div class="card" style="grid-row: 1 / 3;">
+      <div class="card-head"><svg class="ic"><use href="#ic-sword"/></svg>works</div>
+      <div class="rows">
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>Pieta AI — poem sentiment classifier:</strong> built and deployed <a href="https://pieta-ai.vercel.app/" target="_blank" rel="noopener">a full-stack web app</a> (Next.js, React, Vercel, Supabase) that analyzes and classifies a poem's sentiment. fine-tuned and pre-trained a BERT encoder on 6k+ texts for a 4-class task (no impact / positive / negative / mixed) with Hugging Face's Trainer API, then built the evaluation pipeline and custom metrics, reaching ~86% accuracy and a 0.71 F1-score. also fine-tuned a second model via LoRA.</div>
+        </div>
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>fraud detector on an imbalanced dataset:</strong> built a 3-layer neural network in PyTorch to detect fraud across ~284,800 transactions, only 0.17% of them fraudulent. engineered custom features with Pandas/NumPy, trained with BCEWithLogitsLoss + Adam, and evaluated with precision-recall curves rather than accuracy, achieving 80% precision and 75% recall on the fraud class.</div>
+        </div>
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>Netflix user activity analysis:</strong> cleaned a multi-csv dataset with missing values, misaligned indices, and duplicate entries using Pandas, then engineered features for a binary classification model predicting user churn.</div>
+        </div>
+      </div>
+    </div>
 
-    <section class="works" id="works">
-      <h2>works</h2>
-      <ul class="items">
-        <li><strong>Pieta AI — poem analyzer &amp; sentiment classifier (aug 2026):</strong> built and deployed <a href="https://pieta-ai.vercel.app/" target="_blank" rel="noopener">a full-stack web app</a> (Next.js, React, Vercel, Supabase) that interprets poems with an LLM API and classifies their sentiment. fine-tuned a BERT encoder on 6k+ texts for a 4-class task (no impact / positive / negative / mixed) with Hugging Face's Trainer API, built the evaluation pipeline with custom metrics (~86% accuracy, 0.71 F1), and fine-tuned a second model with LoRA.</li>
-        <li><strong>fraud detector on an imbalanced dataset (jul 2026):</strong> built a 3-layer PyTorch neural network to detect fraud across ~284,800 transactions, only 0.17% of them fraudulent. engineered features with Pandas/NumPy, trained with BCEWithLogitsLoss and Adam, and evaluated with precision-recall curves instead of accuracy, reaching 80% precision and 75% recall on the fraud class.</li>
-        <li><strong>Netflix user activity analysis (jul 2026):</strong> cleaned a multi-file dataset with missing values, misaligned indices, and duplicate entries using Pandas, then engineered features for a binary classification model predicting user churn.</li>
-      </ul>
-    </section>
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#ic-crown"/></svg>previously</div>
+      <div class="rows">
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>awards:</strong> united states academic decathlon individual competition two-time national champion; john locke global essay finalist (econ category); national latin exam golds & silvers</div>
+        </div>
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>internships:</strong> climate change research @ both nasa's gsfc and the smithsonian institution NESST summer internships</div>
+        </div>
+          <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>hs highlights:</strong> salutatorian, cum laude society junior inductee, admission ambassador, model un club prez</div>
+        </div>
+        <!-- TODO: fill in certifications, then uncomment
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>certifications:</strong> CERT NAME (issuer, year); CERT NAME (issuer, year)</div>
+        </div>
+        -->
+      </div>
+    </div>
 
-    <section id="previously">
-      <h2>previously</h2>
-      <ul class="items">
-        <li><strong>awards:</strong> united states academic decathlon individual competition two-time national champion; john locke global essay finalist (econ category); national latin exam golds &amp; silvers</li>
-        <li><strong>internships:</strong> climate change research @ both nasa's gsfc and the smithsonian institution NESST summer internships</li>
-        <li><strong>hs highlights:</strong> salutatorian, cum laude society junior inductee, admission ambassador, model un club prez</li>
-        <!-- TODO: fill in real certifications -->
-        <li><strong>certifications:</strong> machine learning specialization & pytorch for deep learning (deeplearning.ai), data analysis with python (freecodecamp)</li>
-      </ul>
-    </section>
+    <div class="card">
+      <div class="card-head"><svg class="ic"><use href="#ic-heart"/></svg>about</div>
+      <div class="facts">
+        <div class="row"><svg class="ic ic-bullet"><use href="#ic-bullet"/></svg><span><strong data-scramble>based in:</strong> corona del mar, CA</span></div>
+        <div class="row"><svg class="ic ic-bullet"><use href="#ic-bullet"/></svg><span><strong data-scramble>two dogs:</strong> yasu (yorkie) and bruiser (shih-tzu)</span></div>
+        <div class="row"><svg class="ic ic-bullet"><use href="#ic-bullet"/></svg><span><strong data-scramble>i love:</strong> traveling, pilates, nyt crosswords, and beach bonfires</span></div>
+        <div class="row"><svg class="ic ic-bullet"><use href="#ic-bullet"/></svg><span><strong data-scramble>my game recs:</strong> balatro, stardew valley, stray, reigns (the inspo for this page!), and any indie game.</span></div>
+        <div class="row"><svg class="ic ic-bullet"><use href="#ic-bullet"/></svg><span><strong data-scramble>skills:</strong> pytorch, tf, pandas, matplotlib, numpy, seaborn, css, html, sql</span></div>
+        <div class="row"><svg class="ic ic-bullet"><use href="#ic-bullet"/></svg><span><strong data-scramble>currently learning:</strong> how to implement RAGs, NLPs, and GANs</span></div>
+      </div>
+    </div>
+  </div>
 
-    <section id="about">
-      <h2>about</h2>
-      <ul class="facts">
-        <li><strong>based in:</strong> corona del mar, CA</li>
-        <li><strong>two dogs:</strong> yasu (yorkie) and bruiser (shih-tzu)</li>
-        <li><strong>i love:</strong> traveling, pilates, nyt crosswords, and beach bonfires</li>
-        <li><strong>my game recs:</strong> balatro, stardew valley, stray, reigns, and any indie game</li>
-        <li><strong>skills:</strong> pytorch, tf, pandas, matplotlib, numpy, seaborn, css, html, sql</li>
-        <li><strong>currently learning:</strong> the deeper theory & math behind llms</li>
-      </ul>
-    </section>
-  </main>
-  <footer></footer>
+  <script src="assets/common.js"></script>
+  <script>
+    (function () {
+      const dot = document.getElementById('snap-cursor');
+      if (!dot || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      window.addEventListener('mousemove', (e) => {
+        dot.classList.add('active');
+        dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+      });
+    })();
+  </script>
 </body>
 </html>
