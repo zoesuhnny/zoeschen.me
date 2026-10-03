@@ -41,7 +41,7 @@
     display: flex;
     flex-direction: column;
     height: 100dvh;
-    font-size: 0.70rem;
+    font-size: 0.66rem;
     font-weight: var(--body-weight);
     letter-spacing: 0.15px;
     padding: 1.25rem;
@@ -135,7 +135,6 @@
     width: 150px;
     height: 150px;
     background: var(--surface-2);
-    border: 1px solid var(--line);
     filter: grayscale(1);
     overflow: hidden;
     margin-bottom: 0.9rem;
@@ -182,7 +181,7 @@
     body {
       display: block;
       height: auto;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       padding: 1.25rem 1rem 2.5rem;
       max-width: 480px;
       margin: 0 auto;
@@ -252,15 +251,15 @@
       <div class="rows">
         <div class="row">
           <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
-          <div class="body"><strong data-scramble>poem analyzer and sentiment classifier:</strong>  built <a href="https://pieta-ai.vercel.app/" target="_blank" rel="noopener">Pieta AI</a> — paired an LLM API for poem interpretation with a fine-tuned BERT sentiment scorer, plus a second sentiment analyzer fine-tuned with LoRA on the way.</div>
+          <div class="body"><strong data-scramble>Pieta AI — poem sentiment classifier:</strong> built and deployed <a href="https://pieta-ai.vercel.app/" target="_blank" rel="noopener">a full-stack web app</a> (Next.js, React, Vercel, Supabase) that analyzes and classifies a poem's sentiment. fine-tuned and pre-trained a BERT encoder on 6k+ texts for a 4-class task (no impact / positive / negative / mixed) with Hugging Face's Trainer API, then built the evaluation pipeline and custom metrics, reaching ~86% accuracy and a 0.71 F1-score. also fine-tuned a second model via LoRA.</div>
         </div>
         <div class="row">
           <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
-          <div class="body"><strong data-scramble>Netflix user activity analysis:</strong> cleaned a multi-file dataset with missing values and duplicate entries, engineering custom features for a binary classification model.</div>
+          <div class="body"><strong data-scramble>fraud detector on an imbalanced dataset:</strong> built a 3-layer neural network in PyTorch to detect fraud across ~284,800 transactions, only 0.17% of them fraudulent. engineered custom features with Pandas/NumPy, trained with BCEWithLogitsLoss + Adam, and evaluated with precision-recall curves rather than accuracy, achieving 80% precision and 75% recall on the fraud class.</div>
         </div>
         <div class="row">
           <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
-          <div class="body"><strong data-scramble>bank customer churn predictor:</strong> built a neural network with PyTorch to predict churn on an imbalanced dataset, cleaning and feature-engineering with Pandas/NumPy and evaluating with precision-recall curves, Youden's J statistic, and f1-scores (~69%/79% precision across classes).</div>
+          <div class="body"><strong data-scramble>Netflix user activity analysis:</strong> cleaned a multi-csv dataset with missing values, misaligned indices, and duplicate entries using Pandas, then engineered features for a binary classification model predicting user churn.</div>
         </div>
       </div>
     </div>
@@ -280,6 +279,12 @@
           <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
           <div class="body"><strong data-scramble>hs highlights:</strong> salutatorian, cum laude society junior inductee, admission ambassador, model un club prez</div>
         </div>
+        <!-- TODO: fill in certifications, then uncomment
+        <div class="row">
+          <svg class="ic ic-bullet"><use href="#ic-bullet"/></svg>
+          <div class="body"><strong data-scramble>certifications:</strong> CERT NAME (issuer, year); CERT NAME (issuer, year)</div>
+        </div>
+        -->
       </div>
     </div>
 

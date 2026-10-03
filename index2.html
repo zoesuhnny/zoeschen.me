@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Zoe Chen</title>
+<style>
+  /* Softer, bookish take on index.html — same grid, same content.
+     Inspired by people.cs.uchicago.edu/~josephinep: serif type,
+     whitesmoke page, slate-blue links, no boxes or HUD chrome. */
+  :root {
+    --bg: #f5f5f5;
+    --ink: #241f20;
+    --muted: #5f5b5c;
+    --faint: #9b9b9b;
+    --line: #e2e0e0;
+    --link: #78819b;
+    --link-hover: #4f5965;
+    --serif: Charter, 'Bitstream Charter', 'Sitka Text', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  a { color: var(--link); text-decoration: none; transition: color 0.15s ease; }
+  a:hover { color: var(--link-hover); text-decoration: underline; text-underline-offset: 3px; }
+
+  ::selection { background: #dfe3ec; }
+
+  /* ---------- Header: centered name + pipe-separated nav ---------- */
+  header { text-align: center; margin-bottom: 2.25rem; }
+  .name {
+    font-size: 3.25rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .menu { margin-top: 0.9rem; color: var(--faint); font-size: 1rem; }
+  .menu a { color: var(--muted); font-weight: 700; }
+  .menu a:hover { color: var(--link); text-decoration: none; }
+  .menu a + a::before {
+    content: "|";
+    color: var(--faint);
+    font-weight: 400;
+    margin: 0 0.75rem;
+    display: inline-block; /* keeps the pipe from getting the hover underline */
+  }
+
+  /* ---------- Grid: same 3-column shape as index.html ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: 240px 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 2.5rem;
+    row-gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  section h2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0 0 0.9rem;
+    color: var(--ink);
+  }
+  /* short accent bar under each heading, like the reference's left-aligned hr */
+  section h2::after {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 3px;
+    background: var(--link);
+    opacity: 0.55;
+    margin-top: 0.4rem;
+  }
+
+  /* ---------- Identity column ---------- */
+  .id { grid-row: 1 / 3; text-align: center; }
+  .photo {
+    width: 190px;
+    height: 190px;
+    margin: 0 auto 1rem;
+    overflow: hidden;
+  }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .id p { margin: 0.35rem 0; color: var(--muted); }
+  .id .hello { color: var(--ink); font-size: 1.05rem; }
+  .id .school { font-style: italic; font-size: 0.92rem; }
+
+  /* ---------- Works spans both rows of the middle column ---------- */
+  .works { grid-row: 1 / 3; }
+
+  ul.items { list-style: none; margin: 0; padding: 0; }
+  ul.items li { margin-bottom: 1rem; color: var(--muted); }
+  ul.items li:last-child { margin-bottom: 0; }
+  ul.items li strong { color: var(--ink); font-weight: 700; }
+
+  ul.facts { list-style: disc; margin: 0; padding-left: 1.1rem; }
+  ul.facts li { margin-bottom: 0.4rem; color: var(--muted); }
+  ul.facts li::marker { color: var(--link); }
+  ul.facts li strong { color: var(--ink); font-weight: 700; }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--faint);
+    font-size: 0.85rem;
+  }
+
+  /* ---------- Tablet: identity on top, two columns below ---------- */
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .id { grid-row: auto; grid-column: 1 / -1; }
+    .works { grid-row: 2 / 4; }
+  }
+
+  /* ---------- Phone: one column ---------- */
+  @media (max-width: 620px) {
+    body { padding: 1.75rem 1rem 2.5rem; font-size: 15px; }
+    .name { font-size: 2.4rem; }
+    .grid { grid-template-columns: 1fr; }
+    .works { grid-row: auto; }
+    .photo { width: 160px; height: 160px; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1 class="name">Zoe Chen</h1>
+    <nav class="menu">
+      <a href="https://github.com/zoesuhnny" target="_blank" rel="noopener">github</a><a href="https://www.linkedin.com/in/zoe-chen-49776b309/" target="_blank" rel="noopener">linkedin</a><a href="https://www.instagram.com/zoeeschenn/" target="_blank" rel="noopener">insta</a><a href="assets/resume.pdf" target="_blank" rel="noopener">resume</a><a href="mailto:zoec@uchicago.edu">email</a>
+    </nav>
+  </header>
+
+  <main class="grid">
+    <section class="id">
+      <div class="photo"><img src="assets/photo.jpg" alt="Zoe Chen" /></div>
+      <p class="hello">hi, welcome to my page :)</p>
+      <p class="school">cs + computational &amp; applied math<br />@ uchicago '30</p>
+      <p><a href="mailto:zoec@uchicago.edu">zoec@uchicago.edu</a></p>
+    </section>
+
+    <section class="works" id="works">
+      <h2>works</h2>
+      <ul class="items">
+        <li><strong>Pieta AI — poem analyzer &amp; sentiment classifier (aug 2026):</strong> built and deployed <a href="https://pieta-ai.vercel.app/" target="_blank" rel="noopener">a full-stack web app</a> (Next.js, React, Vercel, Supabase) that interprets poems with an LLM API and classifies their sentiment. fine-tuned a BERT encoder on 6k+ texts for a 4-class task (no impact / positive / negative / mixed) with Hugging Face's Trainer API, built the evaluation pipeline with custom metrics (~86% accuracy, 0.71 F1), and fine-tuned a second model with LoRA.</li>
+        <li><strong>fraud detector on an imbalanced dataset (jul 2026):</strong> built a 3-layer PyTorch neural network to detect fraud across ~284,800 transactions, only 0.17% of them fraudulent. engineered features with Pandas/NumPy, trained with BCEWithLogitsLoss and Adam, and evaluated with precision-recall curves instead of accuracy, reaching 80% precision and 75% recall on the fraud class.</li>
+        <li><strong>Netflix user activity analysis (jul 2026):</strong> cleaned a multi-file dataset with missing values, misaligned indices, and duplicate entries using Pandas, then engineered features for a binary classification model predicting user churn.</li>
+      </ul>
+    </section>
+
+    <section id="previously">
+      <h2>previously</h2>
+      <ul class="items">
+        <li><strong>awards:</strong> united states academic decathlon individual competition two-time national champion; john locke global essay finalist (econ category); national latin exam golds &amp; silvers</li>
+        <li><strong>internships:</strong> climate change research @ both nasa's gsfc and the smithsonian institution NESST summer internships</li>
+        <li><strong>hs highlights:</strong> salutatorian, cum laude society junior inductee, admission ambassador, model un club prez</li>
+        <!-- TODO: fill in real certifications -->
+        <li><strong>certifications:</strong> machine learning specialization & pytorch for deep learning (deeplearning.ai), data analysis with python (freecodecamp)</li>
+      </ul>
+    </section>
+
+    <section id="about">
+      <h2>about</h2>
+      <ul class="facts">
+        <li><strong>based in:</strong> corona del mar, CA</li>
+        <li><strong>two dogs:</strong> yasu (yorkie) and bruiser (shih-tzu)</li>
+        <li><strong>i love:</strong> traveling, pilates, nyt crosswords, and beach bonfires</li>
+        <li><strong>my game recs:</strong> balatro, stardew valley, stray, reigns, and any indie game</li>
+        <li><strong>skills:</strong> pytorch, tf, pandas, matplotlib, numpy, seaborn, css, html, sql</li>
+        <li><strong>currently learning:</strong>the deeper theory & math behind llms</li>
+      </ul>
+    </section>
+  </main>
+  <footer></footer>
+</body>
+</html>
